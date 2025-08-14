@@ -3,24 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/favicon.png" type="image/png" />
     <title>울산청년연합회</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #FFFFFF;
+            padding: 15px 30px;
+            border-bottom: 1px solid black;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            position: fixed;
+        }
+
+        .logo {
+            position: absolute;  
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .logo img {
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 70px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+
+        .container {
+            margin: auto; 
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        #three {
+            position: relative;
+        }
+
+        .org-title {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #333;
+            font-family: 'Noto Sans KR', sans-serif;
+            z-index: 10;
+            padding: 50px 50px;
+            border-radius: 4px;
+        }
+
+
+        @media (max-width: 768px) {
+            header nav a {
+                margin: 0 15px;
+            }
+            header {
+                display: flex;
+                align-items: center;
+                justify-content: center; /* 전체 가로 중앙 정렬 */
+                gap: 20px; /* 요소 간 간격 */
+                padding: 4px 6px;
+            }
+
+            .logo img {
+                height: 15px; /* 로고 크기 축소 */
+            }
+
+            nav.navbar {
+                display: flex;
+                gap: 15px; /* 메뉴 항목 간 간격 */
+            }
+
+            nav.navbar a {
+                font-size: 8px; /* 글자 크기 축소 */
+                margin: 0; /* 마진 제거 */
+            }
+            .org-title {
+                font-size: 15px;
+                padding: 5px 5px;
+            }
+        }
+
+        
+    </style>
 </head>
 <body>
 <header>
-    <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">소개</a>
-        <a href="organization.html">조직도</a>
+    <div class="logo">
+        <img src="/images/logo.jpg" alt="로고" />
+    </div>
+    <nav class="navbar">
+        <a href="#one" class="anchor-link">홈</a>
+        <a href="#two" class="anchor-link">소개</a>
+        <a href="#three" class="anchor-link">조직도</a>
     </nav>
 </header>
 
-<div class="container">
+<div id="one" class="container">
     <img src="images/page1.jpg" alt="울산청년연합회 표지">
 </div>
-
-<footer>
-    &copy; 2025 울산청년연합회
-</footer>
+<div id="two" class="container">
+    <img src="images/page2.jpg" alt="울산청년연합회 소개">
+</div>
+<div id="three" class="container">  
+    <img src="images/page3.png" alt="울산청년연합회 조직도">
+    <div class="org-title">< 조직표 ></div>
+</div>
 </body>
+<script>
+    document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+  window.addEventListener('scroll', function () {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // PC 화면 기준: 768px 이상일 때만 적용
+  document.addEventListener("DOMContentLoaded", function () {
+    const isPC = window.innerWidth >= 768;
+    const links = document.querySelectorAll(".anchor-link");
+
+    links.forEach(link => {
+      if (isPC) {
+        // PC에서는 정상 동작 (기본 href 유지)
+        return;
+      } else {
+        // 모바일에서는 클릭 막기
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+        });
+      }
+    });
+  });
+</script>
 </html>
