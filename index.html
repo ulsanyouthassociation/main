@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/favicon.png" type="image/png" />
     <title>울산청년연합회</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
             margin: 0;
@@ -22,11 +21,9 @@
             left: 0;
             width: 100%;
             z-index: 9999;
-
             display: flex;
             align-items: center;
             justify-content: center; 
-            position: fixed;
         }
 
         .logo {
@@ -53,80 +50,43 @@
             margin: 0 70px;
             font-size: 25px;
             font-weight: bold;
+            cursor: pointer;
         }
 
-
         .container {
-            margin: auto; 
+            display: none; /* 기본적으로 숨김 */
+            /* margin-top: 100px; nav 높이만큼 여백 */
+            text-align: center;
+        }
+
+        .container.active {
+            display: block; /* 선택된 페이지만 표시 */
         }
 
         img {
             width: 100%;
             height: auto;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-        }
-
-        #three {
-            position: relative;
+            /* max-width: 1000px; 큰 화면에서 너무 넓어지지 않게 */
         }
 
         .org-title {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 40px;
+            margin-top: 20px;
+            font-size: 30px;
             font-weight: bold;
-            color: #333;
-            font-family: 'Noto Sans KR', sans-serif;
-            z-index: 10;
-            padding: 50px 50px;
-            border-radius: 4px;
         }
-
 
         @media (max-width: 768px) {
-            header nav a {
+            .navbar a {
+                font-size: 14px;
                 margin: 0 15px;
             }
-            header {
-                display: flex;
-                align-items: center;
-                justify-content: center; /* 전체 가로 중앙 정렬 */
-                gap: 20px; /* 요소 간 간격 */
-                padding: 4px 6px;
-            }
-
             .logo img {
-                height: 15px; /* 로고 크기 축소 */
-                /* position: absolute;
-                top: 1px;
-                left: 1px; */
-                width: auto;
-                margin-top: 5px;
-            }
-
-            nav.navbar {
-                display: flex;
-                gap: 30px; /* 메뉴 항목 간 간격 */
-            }
-
-            nav.navbar a {
-                font-size: 8px; /* 글자 크기 축소 */
-                margin: 0; /* 마진 제거 */
+                height: 40px;
             }
             .org-title {
-                font-size: 15px;
-                padding: 5px 5px;
+                font-size: 18px;
             }
         }
-
-        
     </style>
 </head>
 <body>
@@ -135,13 +95,13 @@
         <img src="images/logo.jpg" alt="로고" />
     </div>
     <nav class="navbar">
-        <a href="#one" class="anchor-link">홈</a>
-        <a href="#two" class="anchor-link">소개</a>
-        <a href="#three" class="anchor-link">조직도</a>
+        <a data-target="one">홈</a>
+        <a data-target="two">소개</a>
+        <a data-target="three">조직도</a>
     </nav>
 </header>
 
-<div id="one" class="container">
+<div id="one" class="container active">
     <img src="images/page1.jpg" alt="울산청년연합회 표지">
 </div>
 <div id="two" class="container">
@@ -149,44 +109,24 @@
 </div>
 <div id="three" class="container">  
     <img src="images/page3.png" alt="울산청년연합회 조직도">
-    <div class="org-title">< 조직표 ></div>
+    <!-- <div class="org-title">&lt; 조직표 &gt;</div> -->
 </div>
-</body>
+
 <script>
-    document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-    });
-});
-
-  window.addEventListener('scroll', function () {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
-
-  // PC 화면 기준: 768px 이상일 때만 적용
-  document.addEventListener("DOMContentLoaded", function () {
-    const isPC = window.innerWidth >= 768;
-    const links = document.querySelectorAll(".anchor-link");
-
-    links.forEach(link => {
-      if (isPC) {
-        // PC에서는 정상 동작 (기본 href 유지)
-        return;
-      } else {
-        // 모바일에서는 클릭 막기
-        link.addEventListener("click", function (e) {
-          e.preventDefault();
+    // 네비게이션 클릭 이벤트
+    document.querySelectorAll('.navbar a').forEach(navItem => {
+        navItem.addEventListener('click', () => {
+            const targetId = navItem.getAttribute('data-target');
+            
+            // 모든 컨테이너 숨김
+            document.querySelectorAll('.container').forEach(c => {
+                c.classList.remove('active');
+            });
+            
+            // 선택한 컨테이너만 표시
+            document.getElementById(targetId).classList.add('active');
         });
-      }
     });
-  });
 </script>
+</body>
 </html>
